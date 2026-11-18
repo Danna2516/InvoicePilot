@@ -29,14 +29,34 @@ facturas = [
 
 total_facturas = 0
 
-# Iteramos sobre cada diccionario (factura) en la lista 'facturas' 
+print("--- REPORTE DE FACTURAS ---")
 for factura in facturas:
-    print(factura)
-    #Sumar el total de cada factura al acumulador (usamos int() porque el total es un texto)
-    total_facturas =+ int(factura["total"]) #se calcula el total de las facturas juntas
-    print(f"Numero: {factura['numero']}| Proveedor: {factura['proveedor']}") # y usamos las claves ['numero'] y ['proveedor'] para extraer esos datos específicos.
-print (f"Total: ",{total_facturas}) #se imprime el valor total de las facturas
+    total_facturas += int(factura["total"])
+    print(f"Numero: {factura['numero']} | Proveedor: {factura['proveedor']}")
 
-#Calcular el total de las facturas
+# Mostramos el total fuera del bucle
+print(f"\nTotal general de todas las facturas: {total_facturas}")
 
-total_facturas = total_facturas + int(factura["total"])
+# Calcular el promedio (Total dividido entre la cantidad de facturas)
+total_medio = total_facturas / len(facturas)
+print(f"Total medio (promedio): {total_medio}")
+
+# Encontrar la factura con el importe más alto
+factura_mayor = max(facturas, key=lambda f: int(f["total"]))
+print(f"La factura mas alta es del proveedor {factura_mayor['proveedor']} por un valor de {factura_mayor['total']}")
+
+# Comprobar que existan las claves obligatorias: Que la factura tenga número, proveedor, fecha y total.
+if "numero" not in factura or "proveedor" not in factura or "fecha" not in factura or "total" not in factura:
+    print("Error: Faltan datos en factura")
+else:
+    print("Claves presentes")
+# Detectar proveedores vacíos: Si un proveedor es un texto vacío (""), el programa debe detectarlo como un error.
+if factura["proveedor"]== "":
+    print("Error el proveedor esta vacio")
+else:
+    print("Proveedor valido")
+# Rechazar importes negativos: Una factura no puede costar -5000.
+if int(factura['total'])<0:
+    print("Error el total no puede ser negativo")
+else:
+    print("Valor total Valido")
